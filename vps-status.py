@@ -85,11 +85,11 @@ ssh_client.connect(hostname, port, username, password)
 console = Console()
 
 def display_stats():
-    with Live(console=console, refresh_per_second=0.2):
+    with Live(console=console, refresh_per_second=2):
         while True:
             try:
                 stats = get_vps_stats(ssh_client)
-                console.clear()
+                os.system('cls' if os.name == 'nt' else 'clear')
 
                 terminal_width = os.get_terminal_size().columns
 
@@ -113,14 +113,12 @@ def display_stats():
 
                 distro_kernel_info = f"[purple]Distro:[/purple] [cyan]{stats['distro_name']}[/cyan], [purple]Kernel:[/purple] [cyan]{stats['kernel_version']}[/cyan]"
                 uptime_info = f"[purple]Uptime:[/purple] [cyan]{stats['uptime']}[/cyan]"
-                panel_content = f"{distro_kernel_info} {uptime_info:>}"
+                panel_content = f"{distro_kernel_info}, {uptime_info:>}"
                 panel = Panel(panel_content, width=terminal_width, expand=True)
                 console.print(panel)
                 time.sleep(2)
             except KeyboardInterrupt:
                 print("Program interrupted")
                 break
-
-display_stats()
 
 display_stats()
